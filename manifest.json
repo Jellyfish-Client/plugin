@@ -9,6 +9,14 @@
         "imageUrl": "https://raw.githubusercontent.com/Jellyfish-Client/plugin/main/Jellyfish.Bridge/logo.png",
         "versions": [
             {
+                "version": "0.1.0.6",
+                "changelog": "Add Jellyseerr `movie/{id}/similar` and `tv/{id}/similar` passthroughs so the \"Because you watched\u2026\" rail can resolve.\n- Both forward the full incoming query string (page, language, \u2026).",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://Jellyfish-Client.github.io/plugin/jellyfish-bridge/jellyfish-bridge_0.1.0.6.zip",
+                "checksum": "9e9dd995282dd13103ea24702ca7780b",
+                "timestamp": "2026-05-13T20:35:44Z"
+            },
+            {
                 "version": "0.1.0.5",
                 "changelog": "Forward full query string on Jellyseerr discover passthroughs.\n- `discover/movies`, `discover/tv`, `discover/watchlist` now forward every query param (sortBy, voteCountGte, voteAverageGte, genre, watchRegion, watchProviders, \u2026) instead of only `page`.\n- Remove `GET /jellyfish/jellyseerr/config`: exposing the admin X-Api-Key to authenticated clients is no longer needed now that the passthrough is transparent.",
                 "targetAbi": "10.11.0.0",
