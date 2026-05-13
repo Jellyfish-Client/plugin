@@ -41,6 +41,26 @@ jobs:
         run: |
           sed -i "s/^version: .*/version: \"${{ steps.ver.outputs.version }}\"/" Jellyfish.Bridge/build.yaml
 
+      - name: Derive changelog (annotated tag message, else commits since previous tag)
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          NOTES="$(git for-each-ref --format='%(contents)' "refs/tags/$TAG")"
+          # Drop a trailing PGP block if the tag is signed.
+          NOTES="$(printf '%s' "$NOTES" | sed -e '/^-----BEGIN PGP SIGNATURE-----/,$d' -e '/^[[:space:]]*$/N;/\n[[:space:]]*$/D')"
+          if [ -z "$NOTES" ]; then
+            PREV="$(git describe --tags --abbrev=0 "$TAG^" 2>/dev/null || true)"
+            if [ -n "$PREV" ]; then
+              NOTES="$(git log "$PREV..$TAG" --pretty='format:- %s')"
+            else
+              NOTES="$(git log "$TAG" --pretty='format:- %s' | head -20)"
+            fi
+          fi
+          [ -z "$NOTES" ] && NOTES="Release $TAG."
+          printf '%s\n' "$NOTES" > /tmp/changelog.txt
+          echo "===== changelog ====="
+          cat /tmp/changelog.txt
+          echo "====================="
+
       - name: Seed manifest from gh-pages (or init fresh)
         run: |
           mkdir -p artifacts repo
@@ -55,8 +75,13 @@ jobs:
 
       - name: Build + package via jprm
         run: |
-          jprm --verbosity=debug plugin build Jellyfish.Bridge --output artifacts
-          jprm --verbosity=debug repo add --url "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}" repo artifacts/*.zip
+          CHANGELOG="$(cat /tmp/changelog.txt)"
+          jprm --verbosity=debug plugin build Jellyfish.Bridge \
+            --output artifacts \
+            --changelog "$CHANGELOG"
+          jprm --verbosity=debug repo add \
+            --url "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}" \
+            repo artifacts/*.zip
 
       - name: Upload zip to GitHub Release
         uses: softprops/action-gh-release@v2
