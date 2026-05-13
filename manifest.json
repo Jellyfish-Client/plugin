@@ -9,6 +9,14 @@
         "imageUrl": "https://raw.githubusercontent.com/Jellyfish-Client/plugin/main/Jellyfish.Bridge/logo.png",
         "versions": [
             {
+                "version": "0.1.0.3",
+                "changelog": "v0.1.0.3: re-release Jellyseerr proxy endpoints with fixed CI\n\nv0.1.0.2 burned its tag on the broken --changelog flag; reship the same\nendpoint additions under 0.1.0.3 now that the workflow writes the\nchangelog into build.yaml instead.\n\nCo-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://Jellyfish-Client.github.io/plugin/jellyfish-bridge/jellyfish-bridge_0.1.0.3.zip",
+                "checksum": "ea1b781e1682d2848f9c9ec717e61d74",
+                "timestamp": "2026-05-13T13:43:13Z"
+            },
+            {
                 "version": "0.1.0.1",
                 "changelog": "### 0.1.0.1\nAdd plugin logo.\n\n### 0.1.0.0\nInitial scaffold.",
                 "targetAbi": "10.11.0.0",
