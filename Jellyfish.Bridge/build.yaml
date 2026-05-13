@@ -1,6 +1,6 @@
 name: "Jellyfish Bridge"
 guid: "93b3913f-bb53-4120-94a5-1b10e4280f50"
-version: "0.1.0.0"
+version: "0.1.0.1"
 targetAbi: "10.11.0.0"
 framework: "net9.0"
 overview: "Bridge between Jellyfin and Jellyseerr / Radarr / Sonarr for the Jellyfish mobile app."
@@ -9,9 +9,13 @@ description: >
   Jellyfish mobile client only needs a single Jellyfin connection. Jellyseerr
   calls are attributed to the matching Jellyfin user via jellyfinUserId mapping.
 category: "General"
-owner: "lolo"
+owner: "Jellyfish-Client"
+imageUrl: "https://raw.githubusercontent.com/Jellyfish-Client/plugin/main/Jellyfish.Bridge/logo.png"
 artifacts:
   - "Jellyfish.Bridge.dll"
 changelog: |-
-  ### 0.1.0
+  ### 0.1.0.1
+  Add plugin logo.
+
+  ### 0.1.0.0
   Initial scaffold.
