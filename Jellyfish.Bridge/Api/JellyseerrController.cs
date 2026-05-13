@@ -68,6 +68,36 @@ public class JellyseerrController : ControllerBase
     public Task<IActionResult> Collection(int tmdbId, CancellationToken ct = default)
         => Forward(HttpMethod.Get, $"api/v1/collection/{tmdbId}", null, ct);
 
+    [HttpGet("watchproviders/movies")]
+    public Task<IActionResult> WatchProvidersMovies([FromQuery] string? watchRegion = null, CancellationToken ct = default)
+    {
+        var qs = string.IsNullOrWhiteSpace(watchRegion)
+            ? string.Empty
+            : $"?watchRegion={Uri.EscapeDataString(watchRegion)}";
+        return Forward(HttpMethod.Get, $"api/v1/watchproviders/movies{qs}", null, ct);
+    }
+
+    [HttpGet("watchproviders/tv")]
+    public Task<IActionResult> WatchProvidersTv([FromQuery] string? watchRegion = null, CancellationToken ct = default)
+    {
+        var qs = string.IsNullOrWhiteSpace(watchRegion)
+            ? string.Empty
+            : $"?watchRegion={Uri.EscapeDataString(watchRegion)}";
+        return Forward(HttpMethod.Get, $"api/v1/watchproviders/tv{qs}", null, ct);
+    }
+
+    [HttpGet("genreslider/movie")]
+    public Task<IActionResult> GenreSliderMovie(CancellationToken ct = default)
+        => Forward(HttpMethod.Get, "api/v1/discover/genreslider/movie", null, ct);
+
+    [HttpGet("genreslider/tv")]
+    public Task<IActionResult> GenreSliderTv(CancellationToken ct = default)
+        => Forward(HttpMethod.Get, "api/v1/discover/genreslider/tv", null, ct);
+
+    [HttpGet("discover/watchlist")]
+    public Task<IActionResult> DiscoverWatchlist([FromQuery] int page = 1, CancellationToken ct = default)
+        => Forward(HttpMethod.Get, $"api/v1/discover/watchlist?page={page}", null, ct);
+
     // ------------------------------------------------------------------
     // User-scoped reads — only the caller's own requests
     // ------------------------------------------------------------------
