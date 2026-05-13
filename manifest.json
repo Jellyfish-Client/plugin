@@ -4,9 +4,18 @@
         "name": "Jellyfish Bridge",
         "description": "Exposes Jellyseerr, Radarr and Sonarr behind Jellyfin authentication so the Jellyfish mobile client only needs a single Jellyfin connection. Jellyseerr calls are attributed to the matching Jellyfin user via jellyfinUserId mapping.\n",
         "overview": "Bridge between Jellyfin and Jellyseerr / Radarr / Sonarr for the Jellyfish mobile app.",
-        "owner": "lolo",
+        "owner": "Jellyfish-Client",
         "category": "General",
+        "imageUrl": "https://raw.githubusercontent.com/Jellyfish-Client/plugin/main/Jellyfish.Bridge/logo.png",
         "versions": [
+            {
+                "version": "0.1.0.1",
+                "changelog": "### 0.1.0.1\nAdd plugin logo.\n\n### 0.1.0.0\nInitial scaffold.",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://Jellyfish-Client.github.io/plugin/jellyfish-bridge/jellyfish-bridge_0.1.0.1.zip",
+                "checksum": "3df575e1dc2896423e183422decf79ab",
+                "timestamp": "2026-05-13T11:34:59Z"
+            },
             {
                 "version": "0.1.0.0",
                 "changelog": "### 0.1.0\nInitial scaffold.",
