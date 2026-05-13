@@ -1,0 +1,18 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    ports:
+      - "8096:8096"
+    volumes:
+      # Bind-mounts so we can drop the plugin into ./.dev/config/plugins/ from
+      # the host and inspect logs/config without `docker exec`. The .dev dir
+      # is gitignored.
+      - ./.dev/config:/config
+      - ./.dev/cache:/cache
+    restart: unless-stopped
+    # Run as the host user so files written to the bind-mounts (logs, configs)
+    # are owned by you, not root. Set USER_UID/USER_GID env if your IDs aren't 501.
+    user: "501:20"
+    environment:
+      - TZ=Europe/Paris

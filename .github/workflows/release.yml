@@ -1,0 +1,61 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Setup Python (for jprm)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install jprm
+        run: pip install jprm
+
+      - name: Extract version from tag
+        id: ver
+        run: |
+          REF="${GITHUB_REF#refs/tags/v}"
+          echo "version=$REF" >> "$GITHUB_OUTPUT"
+
+      - name: Set version in build.yaml
+        run: |
+          sed -i "s/^version: .*/version: \"${{ steps.ver.outputs.version }}\"/" Jellyfish.Bridge/build.yaml
+
+      - name: Build + package via jprm
+        run: |
+          mkdir -p artifacts repo
+          jprm --verbosity=debug plugin build Jellyfish.Bridge --output artifacts
+          jprm --verbosity=debug repo add --url "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}" repo artifacts/*.zip
+
+      - name: Upload zip to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*.zip
+          generate_release_notes: true
+
+      - name: Upload manifest.json to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: repo
+          keep_files: true

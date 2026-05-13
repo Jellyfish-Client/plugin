@@ -1,0 +1,11 @@
+bin/
+obj/
+build/
+.dev/
+.claude/
+*.user
+*.suo
+.vs/
+.idea/
+.vscode/
+.DS_Store

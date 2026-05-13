@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jellyfish Bridge</title>
+</head>
+<body>
+<div id="JellyfishBridgeConfigPage"
+     data-role="page"
+     class="page type-interior pluginConfigurationPage"
+     data-require="emby-input,emby-button,emby-select,emby-checkbox">
+
+    <div data-role="content">
+        <div class="content-primary">
+            <form id="JellyfishBridgeConfigForm">
+
+                <h2>Jellyseerr</h2>
+                <div class="inputContainer">
+                    <input is="emby-input" type="url" id="JellyseerrUrl" label="Jellyseerr URL"
+                           placeholder="https://jellyseerr.example.com" />
+                    <div class="fieldDescription">Base URL of your Jellyseerr instance. No trailing slash.</div>
+                </div>
+                <div class="inputContainer">
+                    <input is="emby-input" type="password" id="JellyseerrApiKey" label="Jellyseerr API key" />
+                    <div class="fieldDescription">Jellyseerr → Settings → General → API Key.</div>
+                </div>
+                <div>
+                    <button is="emby-button" type="button" class="raised emby-button"
+                            data-test="jellyseerr">
+                        <span>Test Jellyseerr</span>
+                    </button>
+                    <span class="testResult" data-result="jellyseerr"
+                          style="margin-left:1em;font-weight:600"></span>
+                </div>
+
+                <h2 style="margin-top:2em">Radarr</h2>
+                <div class="inputContainer">
+                    <input is="emby-input" type="url" id="RadarrUrl" label="Radarr URL"
+                           placeholder="https://radarr.example.com" />
+                </div>
+                <div class="inputContainer">
+                    <input is="emby-input" type="password" id="RadarrApiKey" label="Radarr API key" />
+                </div>
+                <div>
+                    <button is="emby-button" type="button" class="raised emby-button"
+                            data-test="radarr">
+                        <span>Test Radarr</span>
+                    </button>
+                    <span class="testResult" data-result="radarr"
+                          style="margin-left:1em;font-weight:600"></span>
+                </div>
+
+                <h2 style="margin-top:2em">Sonarr</h2>
+                <div class="inputContainer">
+                    <input is="emby-input" type="url" id="SonarrUrl" label="Sonarr URL"
+                           placeholder="https://sonarr.example.com" />
+                </div>
+                <div class="inputContainer">
+                    <input is="emby-input" type="password" id="SonarrApiKey" label="Sonarr API key" />
+                </div>
+                <div>
+                    <button is="emby-button" type="button" class="raised emby-button"
+                            data-test="sonarr">
+                        <span>Test Sonarr</span>
+                    </button>
+                    <span class="testResult" data-result="sonarr"
+                          style="margin-left:1em;font-weight:600"></span>
+                </div>
+
+                <h2 style="margin-top:2em">Advanced</h2>
+                <div class="inputContainer">
+                    <input is="emby-input" type="number" id="UpstreamTimeoutSeconds"
+                           min="1" max="120" label="Upstream timeout (seconds)" />
+                </div>
+
+                <div style="margin-top:2em">
+                    <button is="emby-button" type="submit" class="raised button-submit-block emby-button">
+                        <span>Save</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        (function () {
+            var pluginId = '93b3913f-bb53-4120-94a5-1b10e4280f50';
+
+            var fieldMap = {
+                jellyseerr: { url: 'JellyseerrUrl', key: 'JellyseerrApiKey' },
+                radarr:     { url: 'RadarrUrl',     key: 'RadarrApiKey' },
+                sonarr:     { url: 'SonarrUrl',     key: 'SonarrApiKey' }
+            };
+
+            function loadConfig(page) {
+                ApiClient.getPluginConfiguration(pluginId).then(function (cfg) {
+                    page.querySelector('#JellyseerrUrl').value = cfg.JellyseerrUrl || '';
+                    page.querySelector('#JellyseerrApiKey').value = cfg.JellyseerrApiKey || '';
+                    page.querySelector('#RadarrUrl').value = cfg.RadarrUrl || '';
+                    page.querySelector('#RadarrApiKey').value = cfg.RadarrApiKey || '';
+                    page.querySelector('#SonarrUrl').value = cfg.SonarrUrl || '';
+                    page.querySelector('#SonarrApiKey').value = cfg.SonarrApiKey || '';
+                    page.querySelector('#UpstreamTimeoutSeconds').value = cfg.UpstreamTimeoutSeconds || 20;
+                    Dashboard.hideLoadingMsg();
+                });
+            }
+
+            function renderResult(span, data) {
+                if (!data) {
+                    span.textContent = '';
+                    return;
+                }
+                if (data.Ok || data.ok) {
+                    var v = data.Version || data.version;
+                    span.style.color = '#2ecc71';
+                    span.textContent = '✓ OK' + (v ? ' (v' + v + ')' : '');
+                } else {
+                    var err = data.Error || data.error || 'error';
+                    var det = data.Detail || data.detail || '';
+                    span.style.color = '#e74c3c';
+                    span.textContent = '✗ ' + err + (det ? ' — ' + det : '');
+                }
+            }
+
+            function testService(page, service) {
+                var fields = fieldMap[service];
+                var span = page.querySelector('[data-result="' + service + '"]');
+                span.style.color = '';
+                span.textContent = '… testing';
+
+                var body = {
+                    Url: page.querySelector('#' + fields.url).value.trim(),
+                    ApiKey: page.querySelector('#' + fields.key).value.trim()
+                };
+
+                var url = ApiClient.getUrl('jellyfish/admin/test/' + service);
+                ApiClient.ajax({
+                    type: 'POST',
+                    url: url,
+                    contentType: 'application/json',
+                    data: JSON.stringify(body),
+                    dataType: 'json'
+                }).then(function (data) {
+                    renderResult(span, data);
+                }).catch(function (xhr) {
+                    var err = { ok: false, error: 'http_' + (xhr.status || 'err'),
+                                detail: xhr.statusText || 'request failed' };
+                    renderResult(span, err);
+                });
+            }
+
+            var page = document.querySelector('#JellyfishBridgeConfigPage');
+
+            page.addEventListener('pageshow', function () {
+                Dashboard.showLoadingMsg();
+                loadConfig(this);
+            });
+
+            // Delegate clicks on all three test buttons.
+            page.addEventListener('click', function (e) {
+                var btn = e.target.closest('[data-test]');
+                if (!btn) return;
+                e.preventDefault();
+                testService(page, btn.getAttribute('data-test'));
+            });
+
+            page.querySelector('#JellyfishBridgeConfigForm')
+                .addEventListener('submit', function (e) {
+                    Dashboard.showLoadingMsg();
+                    ApiClient.getPluginConfiguration(pluginId).then(function (cfg) {
+                        cfg.JellyseerrUrl = page.querySelector('#JellyseerrUrl').value.trim();
+                        cfg.JellyseerrApiKey = page.querySelector('#JellyseerrApiKey').value.trim();
+                        cfg.RadarrUrl = page.querySelector('#RadarrUrl').value.trim();
+                        cfg.RadarrApiKey = page.querySelector('#RadarrApiKey').value.trim();
+                        cfg.SonarrUrl = page.querySelector('#SonarrUrl').value.trim();
+                        cfg.SonarrApiKey = page.querySelector('#SonarrApiKey').value.trim();
+                        cfg.UpstreamTimeoutSeconds = parseInt(page.querySelector('#UpstreamTimeoutSeconds').value, 10) || 20;
+                        ApiClient.updatePluginConfiguration(pluginId, cfg).then(function (r) {
+                            Dashboard.processPluginConfigurationUpdateResult(r);
+                        });
+                    });
+                    e.preventDefault();
+                    return false;
+                });
+        })();
+    </script>
+</div>
+</body>
+</html>
