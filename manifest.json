@@ -9,6 +9,14 @@
         "imageUrl": "https://raw.githubusercontent.com/Jellyfish-Client/plugin/main/Jellyfish.Bridge/logo.png",
         "versions": [
             {
+                "version": "0.1.0.5",
+                "changelog": "Forward full query string on Jellyseerr discover passthroughs.\n- `discover/movies`, `discover/tv`, `discover/watchlist` now forward every query param (sortBy, voteCountGte, voteAverageGte, genre, watchRegion, watchProviders, \u2026) instead of only `page`.\n- Remove `GET /jellyfish/jellyseerr/config`: exposing the admin X-Api-Key to authenticated clients is no longer needed now that the passthrough is transparent.",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://Jellyfish-Client.github.io/plugin/jellyfish-bridge/jellyfish-bridge_0.1.0.5.zip",
+                "checksum": "ea1cd0cff528f3b58593c3b9092d42d8",
+                "timestamp": "2026-05-13T20:01:34Z"
+            },
+            {
                 "version": "0.1.0.4",
                 "changelog": "Add `GET /jellyfish/jellyseerr/config` \u2014 returns the configured Jellyseerr URL and admin API key to authenticated callers so the mobile client can hit `/api/v1/discover/...` directly with the full TMDB query surface (sortBy, voteCountGte, voteAverageGte, \u2026). 503 when the plugin isn't configured.",
                 "targetAbi": "10.11.0.0",
