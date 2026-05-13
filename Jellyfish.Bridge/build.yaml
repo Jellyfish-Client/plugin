@@ -1,6 +1,6 @@
 name: "Jellyfish Bridge"
 guid: "93b3913f-bb53-4120-94a5-1b10e4280f50"
-version: "0.1.0.4"
+version: "0.1.0.5"
 targetAbi: "10.11.0.0"
 framework: "net9.0"
 overview: "Bridge between Jellyfin and Jellyseerr / Radarr / Sonarr for the Jellyfish mobile app."
@@ -14,6 +14,9 @@ imageUrl: "https://raw.githubusercontent.com/Jellyfish-Client/plugin/main/Jellyf
 artifacts:
   - "Jellyfish.Bridge.dll"
 changelog: |-
+  ### 0.1.0.5
+  Forward full query string on Jellyseerr discover passthroughs.
+
   ### 0.1.0.4
   Expose `GET /jellyfish/jellyseerr/config` so the mobile client can hit Jellyseerr directly for advanced discover queries.
 

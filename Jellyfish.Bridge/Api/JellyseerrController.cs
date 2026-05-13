@@ -49,12 +49,12 @@ public class JellyseerrController : ControllerBase
             $"api/v1/search?query={Uri.EscapeDataString(query ?? string.Empty)}&page={page}", null, ct);
 
     [HttpGet("discover/movies")]
-    public Task<IActionResult> DiscoverMovies([FromQuery] int page = 1, CancellationToken ct = default)
-        => Forward(HttpMethod.Get, $"api/v1/discover/movies?page={page}", null, ct);
+    public Task<IActionResult> DiscoverMovies(CancellationToken ct = default)
+        => Forward(HttpMethod.Get, $"api/v1/discover/movies{Request.QueryString.Value}", null, ct);
 
     [HttpGet("discover/tv")]
-    public Task<IActionResult> DiscoverTv([FromQuery] int page = 1, CancellationToken ct = default)
-        => Forward(HttpMethod.Get, $"api/v1/discover/tv?page={page}", null, ct);
+    public Task<IActionResult> DiscoverTv(CancellationToken ct = default)
+        => Forward(HttpMethod.Get, $"api/v1/discover/tv{Request.QueryString.Value}", null, ct);
 
     [HttpGet("movie/{tmdbId:int}")]
     public Task<IActionResult> Movie(int tmdbId, CancellationToken ct = default)
@@ -95,38 +95,8 @@ public class JellyseerrController : ControllerBase
         => Forward(HttpMethod.Get, "api/v1/discover/genreslider/tv", null, ct);
 
     [HttpGet("discover/watchlist")]
-    public Task<IActionResult> DiscoverWatchlist([FromQuery] int page = 1, CancellationToken ct = default)
-        => Forward(HttpMethod.Get, $"api/v1/discover/watchlist?page={page}", null, ct);
-
-    // ------------------------------------------------------------------
-    // Direct-passthrough config — lets the mobile client hit Jellyseerr's
-    // `/api/v1/discover/...` directly with the full TMDB query string
-    // (sortBy, voteCountGte, voteAverageGte, …) which the wrappers above
-    // intentionally don't surface. Returns 503 when the plugin isn't
-    // configured so the client falls back to its cached payload.
-    //
-    // SECURITY NOTE: this exposes the admin X-Api-Key to every authenticated
-    // Jellyfin user. Acceptable here because Jellyfish is a single-household
-    // client and Jellyseerr's admin key only grants access to a service the
-    // same users already see in this app. Do NOT add new fields to this
-    // payload — keep the admin surface minimal.
-    // ------------------------------------------------------------------
-
-    [HttpGet("config")]
-    public IActionResult Config()
-    {
-        var cfg = Plugin.Instance?.Configuration;
-        if (cfg is null || string.IsNullOrWhiteSpace(cfg.JellyseerrUrl) || string.IsNullOrWhiteSpace(cfg.JellyseerrApiKey))
-        {
-            return StatusCode(StatusCodes.Status503ServiceUnavailable,
-                new { error = "jellyseerr_not_configured" });
-        }
-        return Ok(new
-        {
-            url = cfg.JellyseerrUrl.TrimEnd('/'),
-            apiKey = cfg.JellyseerrApiKey,
-        });
-    }
+    public Task<IActionResult> DiscoverWatchlist(CancellationToken ct = default)
+        => Forward(HttpMethod.Get, $"api/v1/discover/watchlist{Request.QueryString.Value}", null, ct);
 
     // ------------------------------------------------------------------
     // User-scoped reads — only the caller's own requests
