@@ -48,6 +48,9 @@ jobs:
       - name: Derive changelog (annotated tag message, else commits since previous tag) and inject into build.yaml
         run: |
           TAG="${GITHUB_REF#refs/tags/}"
+          # actions/checkout leaves annotated tags as lightweight refs even with
+          # fetch-tags: true, so force a fresh fetch to get the tag object.
+          git fetch origin "refs/tags/${TAG}:refs/tags/${TAG}" --force
           NOTES="$(git for-each-ref --format='%(contents)' "refs/tags/$TAG")"
           # Drop a trailing PGP block if the tag is signed.
           NOTES="$(printf '%s' "$NOTES" | sed -e '/^-----BEGIN PGP SIGNATURE-----/,$d' -e '/^[[:space:]]*$/N;/\n[[:space:]]*$/D')"
