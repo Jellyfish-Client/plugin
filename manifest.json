@@ -10,11 +10,11 @@
         "versions": [
             {
                 "version": "0.1.0.3",
-                "changelog": "v0.1.0.3: re-release Jellyseerr proxy endpoints with fixed CI\n\nv0.1.0.2 burned its tag on the broken --changelog flag; reship the same\nendpoint additions under 0.1.0.3 now that the workflow writes the\nchangelog into build.yaml instead.",
+                "changelog": "ci: fetch annotated tags so the changelog comes from the tag, not the commit\n\nactions/checkout@v4 with only fetch-depth: 0 leaves annotated tags as\nlightweight refs on the runner, so `git for-each-ref %(contents)` falls\nback to the commit message \u2014 that's why v0.1.0.3 ended up with the\ncommit body (and its trailers) in the published manifest. fetch-tags\nforces the action to pull the full tag objects.",
                 "targetAbi": "10.11.0.0",
                 "sourceUrl": "https://Jellyfish-Client.github.io/plugin/jellyfish-bridge/jellyfish-bridge_0.1.0.3.zip",
-                "checksum": "9b39c36e3a2559b3ce73c97815bc93a0",
-                "timestamp": "2026-05-13T13:50:55Z"
+                "checksum": "1fd7b7025ed4095eef14b0d6c1a9791d",
+                "timestamp": "2026-05-13T13:53:40Z"
             },
             {
                 "version": "0.1.0.1",
