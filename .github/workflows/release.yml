@@ -41,9 +41,20 @@ jobs:
         run: |
           sed -i "s/^version: .*/version: \"${{ steps.ver.outputs.version }}\"/" Jellyfish.Bridge/build.yaml
 
-      - name: Build + package via jprm
+      - name: Seed manifest from gh-pages (or init fresh)
         run: |
           mkdir -p artifacts repo
+          git fetch origin gh-pages 2>/dev/null || true
+          if git rev-parse --verify origin/gh-pages >/dev/null 2>&1 && \
+             git show origin/gh-pages:manifest.json > repo/manifest.json 2>/dev/null; then
+            echo "Loaded existing manifest from gh-pages"
+          else
+            jprm --verbosity=debug repo init repo
+            echo "Initialised empty manifest"
+          fi
+
+      - name: Build + package via jprm
+        run: |
           jprm --verbosity=debug plugin build Jellyfish.Bridge --output artifacts
           jprm --verbosity=debug repo add --url "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}" repo artifacts/*.zip
 
