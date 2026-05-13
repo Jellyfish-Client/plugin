@@ -9,6 +9,14 @@
         "imageUrl": "https://raw.githubusercontent.com/Jellyfish-Client/plugin/main/Jellyfish.Bridge/logo.png",
         "versions": [
             {
+                "version": "0.1.0.4",
+                "changelog": "Add `GET /jellyfish/jellyseerr/config` \u2014 returns the configured Jellyseerr URL and admin API key to authenticated callers so the mobile client can hit `/api/v1/discover/...` directly with the full TMDB query surface (sortBy, voteCountGte, voteAverageGte, \u2026). 503 when the plugin isn't configured.",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://Jellyfish-Client.github.io/plugin/jellyfish-bridge/jellyfish-bridge_0.1.0.4.zip",
+                "checksum": "bd902852a4ba8a0ac5871add36c5c11c",
+                "timestamp": "2026-05-13T18:48:12Z"
+            },
+            {
                 "version": "0.1.0.3",
                 "changelog": "Add Jellyseerr proxy endpoints to eliminate client 404s:\n- `GET /jellyfish/jellyseerr/watchproviders/movies` (optional `?watchRegion=`)\n- `GET /jellyfish/jellyseerr/watchproviders/tv` (optional `?watchRegion=`)\n- `GET /jellyfish/jellyseerr/genreslider/movie`\n- `GET /jellyfish/jellyseerr/genreslider/tv`\n- `GET /jellyfish/jellyseerr/discover/watchlist` (optional `?page=`)\n\nAlso fixes the release workflow so the per-version changelog actually comes from the tag annotation (jprm has no `--changelog` flag, and `actions/checkout` needs an explicit fetch to preserve annotated tag objects).",
                 "targetAbi": "10.11.0.0",
