@@ -60,9 +60,17 @@ public class JellyseerrController : ControllerBase
     public Task<IActionResult> Movie(int tmdbId, CancellationToken ct = default)
         => Forward(HttpMethod.Get, $"api/v1/movie/{tmdbId}", null, ct);
 
+    [HttpGet("movie/{tmdbId:int}/similar")]
+    public Task<IActionResult> MovieSimilar(int tmdbId, CancellationToken ct = default)
+        => Forward(HttpMethod.Get, $"api/v1/movie/{tmdbId}/similar{Request.QueryString.Value}", null, ct);
+
     [HttpGet("tv/{tmdbId:int}")]
     public Task<IActionResult> Tv(int tmdbId, CancellationToken ct = default)
         => Forward(HttpMethod.Get, $"api/v1/tv/{tmdbId}", null, ct);
+
+    [HttpGet("tv/{tmdbId:int}/similar")]
+    public Task<IActionResult> TvSimilar(int tmdbId, CancellationToken ct = default)
+        => Forward(HttpMethod.Get, $"api/v1/tv/{tmdbId}/similar{Request.QueryString.Value}", null, ct);
 
     [HttpGet("collection/{tmdbId:int}")]
     public Task<IActionResult> Collection(int tmdbId, CancellationToken ct = default)
