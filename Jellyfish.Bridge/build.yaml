@@ -1,6 +1,6 @@
 name: "Jellyfish Bridge"
 guid: "93b3913f-bb53-4120-94a5-1b10e4280f50"
-version: "0.1.0.6"
+version: "0.2.0.0"
 targetAbi: "10.11.0.0"
 framework: "net9.0"
 overview: "Bridge between Jellyfin and Jellyseerr / Radarr / Sonarr for the Jellyfish mobile app."
@@ -14,6 +14,18 @@ imageUrl: "https://raw.githubusercontent.com/Jellyfish-Client/plugin/main/Jellyf
 artifacts:
   - "Jellyfish.Bridge.dll"
 changelog: |-
+  ### 0.2.0.0
+  Add a full web UI takeover that ports the Jellyfish mobile home page to jellyfin-web.
+
+  - Inject custom ES modules into Jellyfin's web client via `jellyfin-plugin-file-transformation`.
+  - Render a hero carousel, Jellyseerr discovery rails (trending, popular, watchlist, watch providers, genre sliders, 5 mood rails, history-seeded recommendations), Radarr/Sonarr upcoming rails, and native Jellyfin rails (continue, next up, latest, per-library).
+  - Add a Seerr request modal with season selector (POSTs to `/jellyfish/jellyseerr/request`).
+  - Hide native Jellyfin home sections except the library shortcuts row.
+  - Style matches the Flutter mobile app (Fraunces / Fira Code / Inter, dark palette, pill chips).
+  - Includes a deploy-local fix: stop the container before swapping the plugin directory to avoid Jellyfin marking the plugin as missing.
+
+  Requires `jellyfin-plugin-file-transformation` to be installed on the target Jellyfin server (manifest: https://www.iamparadox.dev/jellyfin/plugins/manifest.json).
+
   ### 0.1.0.6
   Add Jellyseerr `movie/{id}/similar` and `tv/{id}/similar` passthroughs so the "Because you watched…" rail can resolve.
 

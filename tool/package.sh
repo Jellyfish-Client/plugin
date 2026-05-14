@@ -65,7 +65,7 @@ cat > "$STAGE/meta.json" <<EOF
   "timestamp": "$TIMESTAMP",
   "version": "$VERSION",
   "status": "Active",
-  "autoUpdate": true,
+  "autoUpdate": false,
   "assemblies": ["$NAME.dll"]
 }
 EOF

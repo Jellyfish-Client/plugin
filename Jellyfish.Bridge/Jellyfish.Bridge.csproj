@@ -18,11 +18,14 @@
     <PackageReference Include="Jellyfin.Model" Version="10.11.*">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Configuration\configPage.html" />
     <EmbeddedResource Include="Configuration\configPage.html" />
+    <None Remove="Web\*.js" />
+    <EmbeddedResource Include="Web\*.js" />
   </ItemGroup>
 
 </Project>
