@@ -9,6 +9,14 @@
         "imageUrl": "https://raw.githubusercontent.com/Jellyfish-Client/plugin/main/Jellyfish.Bridge/logo.png",
         "versions": [
             {
+                "version": "0.2.0.0",
+                "changelog": "v0.2.0.0\n\nAdd a full web UI takeover that ports the Jellyfish mobile home page to jellyfin-web.\n\n- Inject custom ES modules into Jellyfin's web client via `jellyfin-plugin-file-transformation`.\n- Render a hero carousel, Jellyseerr discovery rails (trending, popular, watchlist, watch providers, genre sliders, 5 mood rails, history-seeded recommendations), Radarr/Sonarr upcoming rails, and native Jellyfin rails (continue, next up, latest, per-library).\n- Add a Seerr request modal with season selector (POSTs to `/jellyfish/jellyseerr/request`).\n- Hide native Jellyfin home sections except the library shortcuts row.\n- Style matches the Flutter mobile app (Fraunces / Fira Code / Inter, dark palette, pill chips).\n- Includes a deploy-local fix: stop the container before swapping the plugin directory to avoid Jellyfin marking the plugin as missing.\n\nRequires `jellyfin-plugin-file-transformation` to be installed on the target Jellyfin server (manifest: https://www.iamparadox.dev/jellyfin/plugins/manifest.json).",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://Jellyfish-Client.github.io/plugin/jellyfish-bridge/jellyfish-bridge_0.2.0.0.zip",
+                "checksum": "511cd9cd6d0424d5de4660fea9c759d8",
+                "timestamp": "2026-05-14T18:29:22Z"
+            },
+            {
                 "version": "0.1.0.6",
                 "changelog": "Add Jellyseerr `movie/{id}/similar` and `tv/{id}/similar` passthroughs so the \"Because you watched\u2026\" rail can resolve.\n- Both forward the full incoming query string (page, language, \u2026).",
                 "targetAbi": "10.11.0.0",
