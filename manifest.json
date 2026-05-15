@@ -9,6 +9,14 @@
         "imageUrl": "https://raw.githubusercontent.com/Jellyfish-Client/plugin/main/Jellyfish.Bridge/logo.png",
         "versions": [
             {
+                "version": "0.2.0.1",
+                "changelog": "### 0.2.0.1\nRevert the 0.2.0.0 web UI takeover \u2014 the injected `/jellyfish/ui/home.js` script triggered a browser HTTP Basic auth prompt on the Jellyfin login page and locked users out of the web client.\n- Removes the FileTransformation registration and all injected ES modules.\n- Returns to the 0.1.0.6 bridge-only behaviour (Jellyseerr/Radarr/Sonarr passthroughs).",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://Jellyfish-Client.github.io/plugin/jellyfish-bridge/jellyfish-bridge_0.2.0.1.zip",
+                "checksum": "278695a3a578e614ffb5f20a26d8e372",
+                "timestamp": "2026-05-15T13:03:24Z"
+            },
+            {
                 "version": "0.2.0.0",
                 "changelog": "v0.2.0.0\n\nAdd a full web UI takeover that ports the Jellyfish mobile home page to jellyfin-web.\n\n- Inject custom ES modules into Jellyfin's web client via `jellyfin-plugin-file-transformation`.\n- Render a hero carousel, Jellyseerr discovery rails (trending, popular, watchlist, watch providers, genre sliders, 5 mood rails, history-seeded recommendations), Radarr/Sonarr upcoming rails, and native Jellyfin rails (continue, next up, latest, per-library).\n- Add a Seerr request modal with season selector (POSTs to `/jellyfish/jellyseerr/request`).\n- Hide native Jellyfin home sections except the library shortcuts row.\n- Style matches the Flutter mobile app (Fraunces / Fira Code / Inter, dark palette, pill chips).\n- Includes a deploy-local fix: stop the container before swapping the plugin directory to avoid Jellyfin marking the plugin as missing.\n\nRequires `jellyfin-plugin-file-transformation` to be installed on the target Jellyfin server (manifest: https://www.iamparadox.dev/jellyfin/plugins/manifest.json).",
                 "targetAbi": "10.11.0.0",
