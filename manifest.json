@@ -9,6 +9,14 @@
         "imageUrl": "https://raw.githubusercontent.com/Jellyfish-Client/plugin/main/Jellyfish.Bridge/logo.png",
         "versions": [
             {
+                "version": "0.2.0.2",
+                "changelog": "v0.2.0.2: Jellyseerr person passthroughs",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://Jellyfish-Client.github.io/plugin/jellyfish-bridge/jellyfish-bridge_0.2.0.2.zip",
+                "checksum": "cb1f35aab1c6d99f6524b5c4fbea6e96",
+                "timestamp": "2026-05-16T14:10:15Z"
+            },
+            {
                 "version": "0.2.0.1",
                 "changelog": "### 0.2.0.1\nRevert the 0.2.0.0 web UI takeover \u2014 the injected `/jellyfish/ui/home.js` script triggered a browser HTTP Basic auth prompt on the Jellyfin login page and locked users out of the web client.\n- Removes the FileTransformation registration and all injected ES modules.\n- Returns to the 0.1.0.6 bridge-only behaviour (Jellyseerr/Radarr/Sonarr passthroughs).",
                 "targetAbi": "10.11.0.0",
