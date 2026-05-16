@@ -76,6 +76,14 @@ public class JellyseerrController : ControllerBase
     public Task<IActionResult> Collection(int tmdbId, CancellationToken ct = default)
         => Forward(HttpMethod.Get, $"api/v1/collection/{tmdbId}", null, ct);
 
+    [HttpGet("person/{tmdbId:int}")]
+    public Task<IActionResult> Person(int tmdbId, CancellationToken ct = default)
+        => Forward(HttpMethod.Get, $"api/v1/person/{tmdbId}", null, ct);
+
+    [HttpGet("person/{tmdbId:int}/combined_credits")]
+    public Task<IActionResult> PersonCombinedCredits(int tmdbId, CancellationToken ct = default)
+        => Forward(HttpMethod.Get, $"api/v1/person/{tmdbId}/combined_credits{Request.QueryString.Value}", null, ct);
+
     [HttpGet("watchproviders/movies")]
     public Task<IActionResult> WatchProvidersMovies([FromQuery] string? watchRegion = null, CancellationToken ct = default)
     {

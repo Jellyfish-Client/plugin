@@ -1,6 +1,6 @@
 name: "Jellyfish Bridge"
 guid: "93b3913f-bb53-4120-94a5-1b10e4280f50"
-version: "0.2.0.1"
+version: "0.2.0.2"
 targetAbi: "10.11.0.0"
 framework: "net9.0"
 overview: "Bridge between Jellyfin and Jellyseerr / Radarr / Sonarr for the Jellyfish mobile app."
@@ -14,6 +14,9 @@ imageUrl: "https://raw.githubusercontent.com/Jellyfish-Client/plugin/main/Jellyf
 artifacts:
   - "Jellyfish.Bridge.dll"
 changelog: |-
+  ### 0.2.0.2
+  Add Jellyseerr `person/{id}` and `person/{id}/combined_credits` passthroughs so the Jellyfish mobile client can render actor pages (filmography + biography fallback) sourced from TMDB.
+
   ### 0.2.0.1
   Revert the 0.2.0.0 web UI takeover — the injected `/jellyfish/ui/home.js` script triggered a browser HTTP Basic auth prompt on the Jellyfin login page and locked users out of the web client. This release returns to the 0.1.0.6 bridge-only behaviour.
 
